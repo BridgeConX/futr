@@ -16,9 +16,10 @@ $app->get('/', [
   'description' => 'Get API Details',
   function () use ($app) {
       return [
-        'name'        => 'Futr',
-        'description' => 'A REST API for scheduling Guzzle Requests in the future.',
-        'version'     => '0.0.1',
+        'name'          => 'Futr',
+        'description'   => 'A REST API for scheduling Guzzle Requests in the future.',
+        'documentation' => 'http://docs.futr1.apiary.io/',
+        'version'       => '0.0.1',
       ];
   },
 ]);
