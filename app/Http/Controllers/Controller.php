@@ -100,6 +100,6 @@ abstract class Controller extends BaseController
      */
     protected function getAllowedEagerLoads()
     {
-        return $this->allowedEagerLoads ?: [];
+        return @$this->allowedEagerLoads ?: [];
     }
 }

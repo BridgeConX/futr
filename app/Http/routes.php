@@ -11,7 +11,7 @@
 |
 */
 
-$app->get('/', function () {
+$app->get('/', function () use ($app) {
     return [
       'name'        => 'Futr',
       'description' => 'A REST API for scheduling Guzzle Requests in the future.',
@@ -19,30 +19,48 @@ $app->get('/', function () {
     ];
 });
 
+$app->get('routes', function () use ($app) {
+   return $app->getRoutes();
+});
+
 $app->group([
   'prefix'       => 'jobs',
-  'route_prefix' => 'jobs.',
   'namespace'    => 'App\Http\Controllers',
 ], function () use ($app) {
 
     $app->get('/', [
-      'as'   => 'index',
+      'as'   => 'jobs.index',
       'uses' => 'JobsController@index',
     ]);
 
     $app->get('{jobs}', [
-      'as'   => 'show',
+      'as'   => 'jobs.show',
       'uses' => 'JobsController@show',
     ]);
 
     $app->post('/', [
-      'as'   => 'store',
+      'as'   => 'jobs.store',
       'uses' => 'JobsController@store',
     ]);
 
     $app->delete('{jobs}', [
-      'as'   => 'destroy',
+      'as'   => 'jobs.destroy',
       'uses' => 'JobsController@destroy',
     ]);
+});
 
+$app->group([
+  'prefix'       => 'jobs/{jobs}/attempts',
+  'namespace'    => 'App\Http\Controllers',
+], function () use ($app) {
+
+    $app->get('/', [
+      'as'   => 'jobs.attempts.index',
+      'uses' => 'AttemptsController@index',
+    ]);
+
+    $app->get('{attempts}', [
+      'as'   => 'jobs.attempts.show',
+      'uses' => 'AttemptsController@show',
+    ]);
 });
