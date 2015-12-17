@@ -97,13 +97,14 @@ class JobsController extends Controller
     protected function doValidation()
     {
         $this->validate($this->request, [
-          'method'         => 'required|in:GET,POST,PUT,PATCH,DELETE',
-          'payload'        => 'required|array',
-          'callback_url'   => 'url',
-          'start_at'       => 'date_format:Y-m-d H:i',
-          'time'           => 'required|date_format:H:i',
-          'retries'        => 'numeric',
-          'retry_interval' => 'numeric|required_with:retries',
+          'method'           => 'required|in:GET,POST,PUT,PATCH,DELETE',
+          'payload'          => 'required|array',
+          'payload.base_uri' => 'required|url',
+          'callback_url'     => 'url',
+          'start_at'         => 'date_format:Y-m-d H:i',
+          'time'             => 'required|date_format:H:i',
+          'retries'          => 'numeric',
+          'retry_interval'   => 'numeric|required_with:retries',
         ]);
     }
 }
