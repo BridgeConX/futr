@@ -32,8 +32,9 @@ $app->get('routes', [
 ]);
 
 $app->group([
-  'prefix'    => 'jobs',
-  'namespace' => 'App\Http\Controllers',
+  'prefix'     => 'jobs',
+  'namespace'  => 'App\Http\Controllers',
+  'middleware' => 'json',
 ], function () use ($app) {
 
     $app->get('/', [
@@ -62,8 +63,9 @@ $app->group([
 });
 
 $app->group([
-  'prefix'    => 'jobs/{jobs}/attempts',
-  'namespace' => 'App\Http\Controllers',
+  'prefix'     => 'jobs/{jobs}/attempts',
+  'namespace'  => 'App\Http\Controllers',
+  'middleware' => 'json',
 ], function () use ($app) {
 
     $app->get('/', [
