@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\Jobs\ExecuteAttempt;
 
 class AttemptsController extends Controller
 {
@@ -40,7 +41,43 @@ class AttemptsController extends Controller
     {
         $job = Job::findOrFail($jobId);
 
-        return $this->model($job->attempts()->find($id));
+        return $this->model($job->attempts()->findOrFail($id));
+    }
+
+    /**
+     * @param $jobId
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function tryAttempt($jobId, $id)
+    {
+        /** @var Job $job */
+        $job = Job::findOrFail($jobId);
+        $attempt = $job->attempts()->findOrFail($id);
+
+        if (! $attempt->tried) {
+            $this->dispatch(new ExecuteAttempt($attempt));
+        }
+
+        return $this->model($attempt);
+    }
+
+    /**
+     * @param $jobId
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function retryAttempt($jobId, $id)
+    {
+        /** @var Job $job */
+        $job = Job::findOrFail($jobId);
+        $attempt = $job->attempts()->findOrFail($id);
+
+        $this->dispatch(new ExecuteAttempt($attempt));
+
+        return $this->model($attempt);
     }
 
 }
