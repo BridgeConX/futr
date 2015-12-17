@@ -40,7 +40,11 @@ class Marshal extends Command
         foreach ($attempts as $attempt) {
             $this->info('==> [Start] Dispatching Attempt [' . $attempt->id . '].');
 
-            $this->dispatch(new ExecuteAttempt($attempt));
+            if ($this->option('pretend')) {
+                $this->info('==> [Pretend] Calling ' . $attempt->job->method . ' ' . $attempt->job->payload['base_uri']);
+            } else {
+                $this->dispatch(new ExecuteAttempt($attempt));
+            }
 
             $this->info('==> [End] Dispatched Attempt [' . $attempt->id . '].');
         }
