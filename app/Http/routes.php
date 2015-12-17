@@ -19,3 +19,30 @@ $app->get('/', function () {
     ];
 });
 
+$app->group([
+  'prefix'       => 'jobs',
+  'route_prefix' => 'jobs.',
+  'namespace'    => 'App\Http\Controllers',
+], function () use ($app) {
+
+    $app->get('/', [
+      'as'   => 'index',
+      'uses' => 'JobsController@index',
+    ]);
+
+    $app->get('{jobs}', [
+      'as'   => 'show',
+      'uses' => 'JobsController@show',
+    ]);
+
+    $app->post('/', [
+      'as'   => 'store',
+      'uses' => 'JobsController@store',
+    ]);
+
+    $app->delete('{jobs}', [
+      'as'   => 'destroy',
+      'uses' => 'JobsController@destroy',
+    ]);
+
+});
